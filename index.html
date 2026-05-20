@@ -20,10 +20,10 @@
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: var(--bg-gradient); color: var(--text-main);
-            min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box;
+            min-height: 100vh; margin: 0; padding: 10px; box-sizing: border-box;
             display: flex; justify-content: center; align-items: center;
             -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent;
-            overflow: hidden;
+            overflow-x: hidden; 
         }
 
         /* LỚP NHIỄU SÓNG KINH DỊ */
@@ -35,16 +35,19 @@
 
         /* --- BẢNG LỊCH SỬ GÓC TRÁI TRÊN --- */
         #match-history {
-            position: fixed; top: 15px; left: 15px; width: 220px;
-            max-height: 80vh; background: rgba(17, 24, 39, 0.7);
+            position: fixed; top: 10px; left: 10px; width: 200px;
+            max-height: 70vh; background: rgba(17, 24, 39, 0.85);
             border: 1px solid #374151; border-left: 4px solid var(--danger);
-            border-radius: 0.5rem; padding: 12px; overflow-y: auto;
-            z-index: 9995; display: none; font-size: 0.85rem;
+            border-radius: 0.5rem; padding: 10px; overflow-y: auto;
+            z-index: 9995; display: none; font-size: 0.8rem;
             backdrop-filter: blur(8px); box-shadow: 0 4px 20px rgba(0,0,0,0.9);
-            pointer-events: none; /* Tránh bấm nhầm vào lịch sử */
+            pointer-events: none; 
         }
+        #match-history::-webkit-scrollbar { width: 4px; }
+        #match-history::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 2px; }
+
         #match-history h3 {
-            margin: 0 0 10px 0; color: var(--danger); font-size: 1rem;
+            margin: 0 0 8px 0; color: var(--danger); font-size: 0.95rem;
             text-transform: uppercase; border-bottom: 1px solid #374151; padding-bottom: 5px;
         }
         #history-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
@@ -53,51 +56,52 @@
         #history-list li.turn { color: var(--gold); border-top: 1px dashed #4b5563; padding-top: 8px; margin-top: 5px;}
         #history-list li.item { color: #818cf8; }
 
-        /* MÀN HÌNH NHÁY MÁU VÀ RUNG LẮC KINH KHỦNG */
+        /* MÀN HÌNH NHÁY MÁU VÀ RUNG LẮC */
         #blood-flash {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             pointer-events: none; z-index: 9998; opacity: 0;
             box-shadow: inset 0 0 200px 50px rgba(220, 38, 38, 0.9);
             background: radial-gradient(circle, rgba(220,38,38,0) 20%, rgba(153,27,27,0.5) 100%);
         }
-        @keyframes flashBloodExtreme { 
-            0% { opacity: 1; transform: scale(1); filter: contrast(150%); } 
-            100% { opacity: 0; transform: scale(1.05); filter: contrast(100%); } 
-        }
+        @keyframes flashBloodExtreme { 0% { opacity: 1; transform: scale(1); filter: contrast(150%); } 100% { opacity: 0; transform: scale(1.05); filter: contrast(100%); } }
         .blood-anim { animation: flashBloodExtreme 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
 
         @keyframes heavyScreenShake {
             0%, 100% { transform: translate(0,0) rotate(0deg); }
-            10%, 50%, 90% { transform: translate(-15px, 10px) rotate(-1.5deg); filter: blur(2px); }
-            30%, 70% { transform: translate(15px, -10px) rotate(1.5deg); filter: blur(0px); }
+            10%, 50%, 90% { transform: translate(-10px, 8px) rotate(-1deg); filter: blur(1px); }
+            30%, 70% { transform: translate(10px, -8px) rotate(1deg); filter: blur(0px); }
         }
         .shake-heavy { animation: heavyScreenShake 0.4s ease-in-out; }
 
+        /* --- CONTAINER TỰ ĐỘNG CĂN CHỈNH & CUỘN --- */
         .container {
-            background: var(--card-bg); padding: 2.5rem 2rem; border-radius: 1rem;
+            background: var(--card-bg); padding: 2rem 1.5rem; border-radius: 1rem;
             box-shadow: 0 10px 50px rgba(153, 27, 27, 0.4); border: 1px solid #374151;
-            width: 100%; max-width: 520px; position: relative; overflow: hidden;
+            width: 100%; max-width: 500px; position: relative; 
+            max-height: 95vh; overflow-y: auto; overflow-x: hidden; /* Cứu tinh chống mất giao diện */
             transition: all 0.1s;
         }
+        .container::-webkit-scrollbar { width: 6px; }
+        .container::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 3px; }
 
-        .screen { display: none; animation: fadeIn 0.5s ease-out; text-align: center; }
+        .screen { display: none; animation: fadeIn 0.4s ease-out; text-align: center; }
         .screen.active { display: block; }
-        h1 { margin-top: 0; font-size: 1.8rem; color: var(--danger); margin-bottom: 0.5rem; text-shadow: 0 0 10px rgba(220, 38, 38, 0.5); }
-        p.subtitle { color: var(--text-muted); font-size: 1rem; margin-bottom: 1.5rem; }
+        h1 { margin-top: 0; font-size: 1.7rem; color: var(--danger); margin-bottom: 0.5rem; text-shadow: 0 0 10px rgba(220, 38, 38, 0.5); }
+        p.subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.2rem; }
 
         .input-group { display: flex; gap: 8px; margin-bottom: 1rem; align-items: center;}
         input[type=text], select.emoji-select {
             background: #111827; color: white; border: 1px solid #4b5563;
-            border-radius: 0.5rem; font-family: inherit; font-size: 1.05rem; outline: none; transition: all 0.3s;
+            border-radius: 0.5rem; font-family: inherit; font-size: 1rem; outline: none; transition: all 0.3s;
         }
-        input[type=text] { flex: 1; padding: 0.9rem 1rem; text-align: center; }
-        input[type=color] { width: 50px; height: 50px; border: 1px solid #4b5563; border-radius: 0.5rem; padding: 0; cursor: pointer; background: #111827;}
-        select.emoji-select { font-size: 1.5rem; padding: 0.4rem; cursor: pointer; }
-        input[type=text]:focus { border-color: var(--danger); box-shadow: 0 0 10px rgba(220,38,38,0.3); }
+        input[type=text] { flex: 1; padding: 0.8rem; text-align: center; }
+        input[type=color] { width: 45px; height: 45px; border: 1px solid #4b5563; border-radius: 0.5rem; padding: 0; cursor: pointer; background: #111827;}
+        select.emoji-select { font-size: 1.4rem; padding: 0.3rem; cursor: pointer; }
+        input[type=text]:focus { border-color: var(--danger); box-shadow: 0 0 8px rgba(220,38,38,0.3); }
 
         button {
             background-color: var(--primary); color: white; border: 1px solid #7f1d1d;
-            padding: 1rem 1.5rem; font-size: 1.1rem; border-radius: 0.5rem;
+            padding: 0.9rem 1rem; font-size: 1.05rem; border-radius: 0.5rem;
             cursor: pointer; width: 100%; font-weight: bold; font-family: inherit;
             transition: all 0.2s ease; margin-bottom: 0.8rem; text-transform: uppercase;
             box-shadow: 0 4px 6px rgba(0,0,0,0.5);
@@ -106,26 +110,29 @@
         button:active { transform: scale(0.98); }
         button:disabled { opacity: 0.5; cursor: not-allowed; }
         .btn-secondary { background-color: #374151; border-color: #4b5563; }
+        .btn-secondary:hover { background-color: #4b5563; }
         .btn-gold { background-color: var(--gold); border-color: #d97706; }
 
         .player-list {
             text-align: left; background: #111827; padding: 1rem; border: 1px solid #374151;
-            border-radius: 0.5rem; margin-bottom: 1.5rem; max-height: 150px; overflow-y: auto;
+            border-radius: 0.5rem; margin-bottom: 1.5rem; max-height: 180px; overflow-y: auto;
         }
+        .player-list::-webkit-scrollbar { width: 4px; }
+        .player-list::-webkit-scrollbar-thumb { background: var(--danger); border-radius: 2px; }
         .player-item { display: flex; align-items: center; gap: 10px; font-weight: bold; padding: 5px 0; border-bottom: 1px dashed #374151; }
 
-        /* BẢN ĐỒ ELIP MÁU */
+        /* BẢN ĐỒ ELIP */
         .lobby-map {
-            position: relative; width: calc(100% - 60px); height: 260px;
-            margin: 1.5rem auto; border: 2px dashed var(--primary); 
+            position: relative; width: calc(100% - 40px); height: 240px;
+            margin: 1rem auto; border: 2px dashed var(--primary); 
             border-radius: 50%; background: #111827; box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
         }
         
         .player-slot {
-            position: absolute; width: 50px; height: 50px; background: #374151;
+            position: absolute; width: 45px; height: 45px; background: #374151;
             border-radius: 50%; transform: translate(-50%, -50%);
             display: flex; justify-content: center; align-items: center;
-            font-weight: bold; font-size: 1.5rem; color: #fff;
+            font-weight: bold; font-size: 1.3rem; color: #fff;
             border: 3px solid #111827; cursor: pointer;
             transition: all 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.5); z-index: 5;
         }
@@ -133,43 +140,50 @@
         .player-slot.selected { box-shadow: 0 0 15px var(--danger); border-color: var(--danger); transform: translate(-50%, -50%) scale(1.1); }
         .player-slot.aiming:hover { box-shadow: 0 0 20px var(--danger); border-color: var(--danger); transform: translate(-50%, -50%) scale(1.15); }
         .player-slot.aiming-cuff:hover { box-shadow: 0 0 20px #8b5cf6; border-color: #8b5cf6; transform: translate(-50%, -50%) scale(1.15); }
-        .player-slot .cuff-icon { position: absolute; top: -10px; right: -10px; font-size: 1.2rem; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.8)); }
+        .player-slot .cuff-icon { position: absolute; top: -10px; right: -10px; font-size: 1rem; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.8)); }
 
         .slot-0 { top: 0%; left: 50%; } .slot-1 { top: 15%; left: 85%; }
         .slot-2 { top: 50%; left: 100%; } .slot-3 { top: 85%; left: 85%; }
         .slot-4 { top: 100%; left: 50%; } .slot-5 { top: 85%; left: 15%; }
         .slot-6 { top: 50%; left: 0%; } .slot-7 { top: 15%; left: 15%; }
 
-        /* SÚNG GIỮA BÀN */
-        #center-gun-translator { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 140px; height: 140px; z-index: 10; }
+        /* SÚNG GIỮA BÀN (ĐÃ THU NHỎ scale 1.2) */
+        #center-gun-translator { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 120px; height: 120px; z-index: 10; }
         #actual-gun { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; transform: rotate(0deg); transform-origin: center center; }
-        #actual-gun svg { transform: scale(1.6); filter: drop-shadow(0px 8px 6px rgba(0,0,0,0.8)); }
+        #actual-gun svg { transform: scale(1.2); filter: drop-shadow(0px 8px 6px rgba(0,0,0,0.8)); }
         
-        /* HÒM TIẾP TẾ - VALI KIM LOẠI */
-        #loot-box { position: absolute; top: 50%; left: 50%; transform: translate(200vw, -50%); z-index: 15; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.9)); display: none;}
-        #loot-box svg { width: 100px; height: auto; }
+        /* HÒM TIẾP TẾ */
+        #loot-box { 
+    position: absolute; top: 50%; left: 50%; 
+    transform: translate(200vw, -50%); /* Luôn trượt vào từ phải */
+    z-index: 15; 
+    width: 80px; /* Cố định kích thước */
+    height: auto;
+    display: none;
+    transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+#loot-box svg { width: 100%; height: auto; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.9)); }
 
         /* HUD & TURN BANNER */
         .turn-banner {
-            background: var(--primary); color: white; font-weight: bold; font-size: 1.2rem;
-            padding: 0.8rem; border-radius: 0.5rem; margin-top: 1rem; border: 1px solid var(--danger);
+            background: var(--primary); color: white; font-weight: bold; font-size: 1.1rem;
+            padding: 0.6rem; border-radius: 0.5rem; margin-top: 0.5rem; border: 1px solid var(--danger);
             display: none; box-shadow: 0 0 15px rgba(220, 38, 38, 0.4);
         }
 
         .hud {
             display: flex; justify-content: space-between; align-items: center;
-            background: #111827; padding: 1.5rem 1.2rem; border-radius: 1rem; 
+            background: #111827; padding: 1.2rem 1rem; border-radius: 1rem; 
             margin-top: 1rem; border: 1px solid #374151; box-shadow: inset 0 4px 20px rgba(0,0,0,0.8);
             position: relative;
         }
-        .health-bar { font-size: 1.6rem; letter-spacing: 4px; flex: 1; text-align: left; transition: all 0.3s; }
-        .ammo-counter { text-align: right; font-size: 1.1rem; font-weight: bold; flex: 1; line-height: 1.6; }
+        .health-bar { font-size: 1.4rem; letter-spacing: 2px; flex: 1; text-align: left; transition: all 0.3s; }
+        .ammo-counter { text-align: right; font-size: 0.95rem; font-weight: bold; flex: 1; line-height: 1.5; }
         
         .hud-gun-wrapper { flex: 1.2; display: flex; justify-content: center; align-items: center; transform-origin: center; transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); position: relative; z-index: 10;}
-        .hud-gun-wrapper .pixel-gun { width: 170px; height: auto; shape-rendering: crispEdges; }
+        .hud-gun-wrapper .pixel-gun { width: 140px; height: auto; shape-rendering: crispEdges; }
         .gun-flash { opacity: 0; transition: opacity 0.1s; }
 
-        /* CÁC HOẠT ẢNH SÚNG */
         @keyframes reload-pump { 0% { transform: translateX(0); } 50% { transform: translateX(-8px); } 100% { transform: translateX(0); } }
         .reloading .gun-pump { animation: reload-pump 0.5s ease-in-out; }
         @keyframes shoot-recoil { 0% { transform: translateX(0) rotate(0); } 20% { transform: translateX(-15px) rotate(-20deg); } 100% { transform: translateX(0) rotate(0); } }
@@ -184,29 +198,29 @@
         #magnifier-tool {
             position: absolute; bottom: 0%; left: 50%;
             transform: translate(-50%, 120%) scale(0.5); 
-            width: 100px; height: 160px; z-index: 5; 
+            width: 80px; height: 140px; z-index: 5; 
             transition: transform 0.8s cubic-bezier(0.3, 1.3, 0.3, 1);
             display: none; filter: drop-shadow(0 0 10px rgba(0,0,0,0.8));
         }
-        .magnifier-reveal #magnifier-tool { display: block; transform: translate(-50%, -20%) scale(1.5); }
+        .magnifier-reveal #magnifier-tool { display: block; transform: translate(-50%, -10%) scale(1.3); }
         #mag-bullet-color { transition: fill 0.3s; }
 
-        .loot-emoji { position: absolute; font-size: 2.5rem; z-index: 20; transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1); filter: drop-shadow(0 4px 6px rgba(0,0,0,0.8)); }
-        
-        /* MÁU VĂNG */
-        @keyframes mc-death { 0% { transform: translate(0, 0) scale(1); opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; } }
-        .mc-particle { position: absolute; top: 50%; left: 50%; width: 10px; height: 10px; margin-top: -5px; margin-left: -5px; background: #dc2626; border-radius: 2px; animation: mc-death 1.5s forwards; box-shadow: 0 0 5px red;}
+        .loot-emoji { position: absolute; font-size: 2rem; z-index: 20; transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1); filter: drop-shadow(0 4px 6px rgba(0,0,0,0.8)); }
+        @keyframes boxLight { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+        #box-light-beam { animation: boxLight 1s infinite; display: none;}
 
-        /* NHẬT KÝ CHIẾN TRƯỜNG ĐÃ SỬA FONT */
+        @keyframes mc-death { 0% { transform: translate(0, 0) scale(1); opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; } }
+        .mc-particle { position: absolute; top: 50%; left: 50%; width: 8px; height: 8px; margin-top: -4px; margin-left: -4px; background: #dc2626; border-radius: 2px; animation: mc-death 1.5s forwards; box-shadow: 0 0 5px red;}
+
         .battle-log { 
             font-family: inherit; 
-            background: #111827; padding: 1.2rem; border-radius: 0.5rem; border-left: 5px solid var(--danger); 
-            font-weight: bold; min-height: 40px; display: flex; align-items: center; justify-content: center; 
-            font-size: 1.1rem; transition: all 0.3s; margin-top: 1rem; border: 1px solid #374151; box-shadow: inset 0 0 15px rgba(0,0,0,0.7);
+            background: #111827; padding: 1rem; border-radius: 0.5rem; border-left: 5px solid var(--danger); 
+            font-weight: bold; min-height: 35px; display: flex; align-items: center; justify-content: center; 
+            font-size: 1rem; transition: all 0.3s; margin-top: 1rem; border: 1px solid #374151; box-shadow: inset 0 0 15px rgba(0,0,0,0.7);
         }
         
-        .items-rack { display: flex; justify-content: center; gap: 10px; margin: 15px 0; min-height: 55px;}
-        .item-box { width: 55px; height: 55px; background: #374151; border: 2px solid #4b5563; border-radius: 0.5rem; display: flex; justify-content: center; align-items: center; font-size: 1.6rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .items-rack { display: flex; justify-content: center; gap: 8px; margin: 15px 0; min-height: 50px;}
+        .item-box { width: 50px; height: 50px; background: #374151; border: 2px solid #4b5563; border-radius: 0.5rem; display: flex; justify-content: center; align-items: center; font-size: 1.4rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
         .item-box:active { transform: scale(0.9); }
         .item-box.used { opacity: 0.2; pointer-events: none; filter: grayscale(1); }
 
@@ -219,7 +233,7 @@
     <div id="blood-flash"></div>
 
     <div id="match-history">
-        <h3>📜 Ghi Chép Tử Thần</h3>
+        <h3>📜 Ghi Chép</h3>
         <ul id="history-list"></ul>
     </div>
 
@@ -239,6 +253,17 @@
             <rect x="51" y="11" width="2" height="4" fill="#290f02"/>
         </g>
         <path class="gun-flash" d="M74,9 L80,5 L78,9 L84,9 L78,11 L80,15 L74,10 Z" fill="#fca5a5"/> 
+    </svg>
+
+    <svg style="display: none;">
+        <symbol id="svg-vali" viewBox="0 0 100 80">
+            <rect class="box-body" x="5" y="20" width="90" height="55" rx="5" fill="#1f2937" stroke="#4b5563" stroke-width="2"/>
+            <rect x="30" y="20" width="40" height="5" fill="#111827"/>
+            <g class="box-lid-group" style="transition: transform 0.6s ease; transform-origin: top center;">
+                <rect class="box-lid" x="5" y="10" width="90" height="15" rx="3" fill="#374151" stroke="#4b5563" stroke-width="2"/>
+                <rect x="45" y="7" width="10" height="6" rx="1" fill="#9ca3af"/>
+            </g>
+        </symbol>
     </svg>
 
     <div class="container" id="mainContainer">
@@ -287,15 +312,10 @@
                     </div>
                 </div>
                 <div id="loot-box">
-                    <svg viewBox="0 0 100 80" style="width:100px; height:auto;">
-                        <rect class="box-body" x="5" y="20" width="90" height="55" rx="5" fill="#1f2937" stroke="#4b5563" stroke-width="2"/>
-                        <rect x="30" y="20" width="40" height="5" fill="#111827"/>
-                        <g class="box-lid-group" style="transition: transform 0.6s ease; transform-origin: top center;">
-                            <rect class="box-lid" x="5" y="10" width="90" height="15" rx="3" fill="#374151" stroke="#4b5563" stroke-width="2"/>
-                            <rect x="45" y="7" width="10" height="6" rx="1" fill="#9ca3af"/>
-                        </g>
+                    <svg viewBox="0 0 100 80" style="width:100%; height:100%;">
+                        <use href="#svg-vali"/>
                     </svg>
-                    <div id="box-light-beam" style="position: absolute; top: 15px; left: 10px; width: 80px; height: 20px; background: var(--danger); filter: blur(10px); display: none;"></div>
+                    <div id="box-light-beam" style="position: absolute; top: 15px; left: 10px; width: 60px; height: 15px; background: var(--danger); filter: blur(8px); display: none;"></div>
                 </div>
             </div>
 
@@ -320,7 +340,7 @@
                 <div class="ammo-counter" id="ammoUI"></div>
             </div>
 
-            <p style="text-align: left; margin: 15px 0 5px 0; font-weight: bold; font-size: 1rem; color: var(--text-muted);" id="txtTuiDo">Túi đồ của bạn:</p>
+            <p style="text-align: left; margin: 15px 0 5px 0; font-weight: bold; font-size: 0.95rem; color: var(--text-muted);" id="txtTuiDo">Túi đồ của bạn:</p>
             <div class="items-rack" id="itemsRack"></div>
 
             <button class="btn-danger" id="btnShoot" onclick="kichHoatBan()" style="margin-top: 5px;">🔫 CẦM SÚNG LÊN</button>
@@ -329,10 +349,10 @@
         <div id="screen-win" class="screen">
             <h1 id="win-title" style="font-size: 2.2rem; color: var(--danger);">☠️ SỐNG SÓT</h1>
             <p style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 5px;">Kẻ cướp được linh hồn:</p>
-            <h2 id="winner-name" style="font-size: 2.5rem; margin-top: 0; text-shadow: 0 0 10px red;">💀 Player 1</h2>
+            <h2 id="winner-name" style="font-size: 2.2rem; margin-top: 0; text-shadow: 0 0 10px red;">💀 Player 1</h2>
             
             <div id="reward-section">
-                <div style="font-size: 2.5rem; color: var(--danger); font-weight: bold; margin: 1rem 0; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+                <div style="font-size: 2.2rem; color: var(--danger); font-weight: bold; margin: 1rem 0; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
                     Được quyền sống tiếp!
                 </div>
             </div>
@@ -342,6 +362,87 @@
     </div>
 
     <script>
+        // --- HỆ THỐNG ÂM THANH (WEB AUDIO API TÍCH HỢP) ---
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let actx;
+
+        function initAudio() {
+            if (!actx) actx = new AudioContext();
+            if (actx.state === 'suspended') actx.resume();
+        }
+
+        const sfx = {
+            playTone: (type, f1, f2, dur, vol) => {
+                if(!actx) return;
+                let osc = actx.createOscillator(); let gain = actx.createGain();
+                osc.type = type; osc.frequency.setValueAtTime(f1, actx.currentTime);
+                if(f2) osc.frequency.exponentialRampToValueAtTime(f2, actx.currentTime + dur);
+                gain.gain.setValueAtTime(vol, actx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, actx.currentTime + dur);
+                osc.connect(gain); gain.connect(actx.destination);
+                osc.start(); osc.stop(actx.currentTime + dur);
+            },
+            playNoise: (dur, vol, isLow=false) => {
+                if(!actx) return;
+                let bs = actx.sampleRate * dur;
+                let buf = actx.createBuffer(1, bs, actx.sampleRate);
+                let dat = buf.getChannelData(0);
+                for(let i=0; i<bs; i++) dat[i] = Math.random() * 2 - 1;
+                let src = actx.createBufferSource(); src.buffer = buf;
+                let gain = actx.createGain();
+                gain.gain.setValueAtTime(vol, actx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, actx.currentTime + dur);
+                if(isLow) {
+                    let filter = actx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 800;
+                    src.connect(filter); filter.connect(gain);
+                } else { src.connect(gain); }
+                gain.connect(actx.destination); src.start();
+            },
+            click: () => sfx.playTone('sine', 800, 600, 0.05, 0.05),
+            rummage: () => {
+                sfx.playNoise(1.5, 0.1, true);
+                setTimeout(() => sfx.playNoise(0.5, 0.1), 300);
+                setTimeout(() => sfx.playNoise(0.8, 0.1, true), 800);
+            },
+            spin: () => {
+                for(let i=0; i<25; i++) {
+                    let t = i / 25; let delay = (t * t * t) * 6; 
+                    setTimeout(() => sfx.playTone('square', 600, 200, 0.03, 0.03), delay * 1000);
+                }
+            },
+            itemClick: () => sfx.playTone('sine', 1200, 1500, 0.1, 0.05),
+            knife: () => sfx.playTone('sawtooth', 1500, 400, 0.3, 0.05),
+            cig: () => sfx.playNoise(1.5, 0.08, true),
+            glass: () => sfx.playTone('sine', 2000, 2500, 0.4, 0.05),
+            drink: () => {
+                sfx.playTone('sine', 400, 600, 0.1, 0.05);
+                setTimeout(() => sfx.playTone('sine', 300, 500, 0.1, 0.05), 150);
+            },
+            cuffs: () => {
+                sfx.playTone('square', 300, 100, 0.05, 0.05);
+                setTimeout(() => sfx.playTone('square', 400, 100, 0.05, 0.05), 100);
+            },
+            shootReal: () => {
+                sfx.playNoise(0.8, 0.4); 
+                sfx.playTone('square', 150, 40, 0.6, 0.3); 
+            },
+            shootBlank: () => {
+                sfx.playTone('triangle', 800, 400, 0.05, 0.1); 
+            },
+            damage: () => sfx.playTone('sawtooth', 100, 40, 0.8, 0.1),
+            turn: () => sfx.playTone('sine', 400, 300, 1.0, 0.05)
+        }
+
+        // Bắt sự kiện âm thanh click cho mọi nút
+        document.addEventListener('click', (e) => {
+            initAudio();
+            if(e.target.tagName === 'BUTTON' || e.target.closest('button')) sfx.click();
+            if(e.target.closest('.item-box')) sfx.itemClick();
+            if(e.target.closest('.player-slot')) sfx.click();
+        });
+
+
+        // --- CHUẨN BỊ SVG & DATA ---
         document.addEventListener("DOMContentLoaded", () => {
             const svgContent = document.getElementById('svg-gun-template').innerHTML;
             document.querySelectorAll('.pixel-gun').forEach(el => el.innerHTML = svgContent);
@@ -374,7 +475,6 @@
             li.innerHTML = noiDung;
             if(loai) li.className = loai;
             ul.appendChild(li);
-            
             const historyContainer = document.getElementById('match-history');
             historyContainer.scrollTop = historyContainer.scrollHeight; 
         }
@@ -455,7 +555,7 @@
             renderLobby();
         }
 
-        // --- GAME VÀ VÒNG MỚI (ĐÃ FIX LỖI KẸT GỌI HỒN) ---
+        // --- GAME VÀ VÒNG MỚI (ĐÃ FIX KẸT) ---
         async function batDauGame() {
             document.getElementById('screen-lobby').classList.remove('active');
             document.getElementById('screen-game').classList.add('active');
@@ -492,15 +592,17 @@
             if(boxLidGroup) boxLidGroup.style.transform = 'translateY(0) rotate(0deg)';
             if(boxBeam) boxBeam.style.display = 'none';
 
-            lootBox.style.transform = 'translate(150vw, -50%) scale(2)';
+            lootBox.style.transform = 'translate(150vw, -50%) scale(1.5)';
             void lootBox.offsetWidth; 
             
             lootBox.style.transition = 'transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1)';
-            lootBox.style.transform = 'translate(-50%, -50%) scale(2)';
+            lootBox.style.transform = 'translate(-50%, -50%) scale(1.5)';
             await sleep(1500);
 
             lootBox.classList.add('shake'); await sleep(800); lootBox.classList.remove('shake');
             
+            sfx.rummage();
+
             if(boxLidGroup) {
                 boxLidGroup.style.transition = 'transform 0.6s ease';
                 boxLidGroup.style.transform = 'translateY(-15px) rotate(-5deg)'; 
@@ -531,7 +633,7 @@
                 if(boxBeam) boxBeam.style.display = 'none';
             }
             await sleep(600);
-            lootBox.style.transform = 'translate(-150vw, -50%) scale(2)';
+            lootBox.style.transform = 'translate(-150vw, -50%) scale(1.5)';
             await sleep(1200); lootBox.style.display = 'none';
 
             bullets = [];
@@ -576,7 +678,7 @@
 
                         setTimeout(() => {
                             particle.style.transform = 'translate(-50%, -50%) scale(1.3)';
-                            particle.style.top = (targetY - 60) + 'px'; 
+                            particle.style.top = (targetY - 50) + 'px'; 
                             particle.style.left = ((mapRect.width/2 + targetX)/2) + 'px';
                         }, 50);
 
@@ -599,6 +701,8 @@
             actualGun.style.transition = 'none'; actualGun.style.transform = `rotate(0deg)`;
             void actualGun.offsetWidth; 
             actualGun.style.transition = 'transform 6s cubic-bezier(0.1, 0.8, 0.1, 1)'; 
+
+            sfx.spin();
 
             const playersPresent = slots.map((s, idx) => ({s, idx})).filter(x => x.s !== null && !x.s.isDead);
             const winner = playersPresent[Math.floor(Math.random() * playersPresent.length)];
@@ -623,6 +727,7 @@
                 return;
             }
 
+            sfx.turn(); 
             ghiLichSu(`🔥 Lượt của ${p.name}`, "turn");
 
             document.getElementById('btnShoot').disabled = false; 
@@ -676,7 +781,7 @@
             }
         }
 
-        // --- CƠ CHẾ DÙNG VẬT PHẨM ---
+        // --- CƠ CHẾ DÙNG VẬT PHẨM ÂM THANH ---
         async function dungVatPham(invIndex, item, element) {
             if (isAiming || isAimingCuffs || isSpinning) return; 
             isSpinning = true; 
@@ -692,11 +797,13 @@
 
             switch(item.id) {
                 case 'knife': 
+                    sfx.knife();
                     dmgMultiplier = 2; log.innerHTML = `🔪 <b>Lưỡi Cưa:</b> Cưa ngắn nòng súng! Sát thương x2.`; 
                     ghiLichSu(`🔪 ${pName} cưa nòng súng (x2 DMG).`, "item");
                     hudGun.classList.add('reloading'); await sleep(500); hudGun.classList.remove('reloading');
                     isSpinning = false; break;
                 case 'cig': 
+                    sfx.cig();
                     log.innerHTML = `🚬 <b>Rít thuốc...</b>`;
                     const hpUI = document.getElementById('myHealth');
                     hpUI.classList.add('heart-flash'); 
@@ -707,9 +814,10 @@
                     ghiLichSu(`🚬 ${pName} hút thuốc (+1 HP).`, "item");
                     capNhatMau(); await sleep(500); isSpinning = false; break;
                 case 'glass': 
+                    sfx.glass();
                     log.innerHTML = `🔍 <b>Dùng kính soi...</b>`;
                     ghiLichSu(`🔍 ${pName} lén xem đạn.`, "item");
-                    hudGun.style.transform = 'scale(1.5)'; 
+                    hudGun.style.transform = 'scale(1.3)'; 
                     await sleep(400);
                     let isRed = bullets[0] === 'red';
                     magBulletColor.style.fill = isRed ? '#dc2626' : '#059669'; 
@@ -724,12 +832,14 @@
                     await sleep(300);
                     isSpinning = false; break;
                 case 'drink': 
+                    sfx.drink();
                     let dropped = bullets.shift(); 
                     let drStr = dropped === 'red' ? '🔴 Thật' : '🟢 Giả';
                     log.innerHTML = `🥤 <b>Thuốc độc:</b> Đã ép văng viên đạn ${drStr} ra ngoài.`; 
                     ghiLichSu(`🥤 ${pName} uống thuốc tống đạn ${drStr} ra.`, "item");
                     capNhatDan(); await sleep(500); isSpinning = false; kiemTraVongMoiThongThuong(); break;
                 case 'cuffs': 
+                    sfx.cuffs();
                     isAimingCuffs = true;
                     log.innerHTML = `<span style='color:#8b5cf6'>🔗 <b>Còng sắt:</b> Bấm chọn con mồi để trói tay chúng!</span>`;
                     document.querySelectorAll('#gameMap .player-slot').forEach(s => s.classList.add('aiming-cuff'));
@@ -750,7 +860,6 @@
             ghiLichSu(`🔗 ${slots[turnIndex].name} còng tay ${target.name}.`, "item");
         }
 
-        // --- BẮN SÚNG & RUNG CHẤN KINH KHỦNG ---
         function kichHoatBan() {
             if(bullets.length === 0 || isSpinning || isAimingCuffs) return;
             isAiming = !isAiming;
@@ -773,14 +882,14 @@
         function hieuUngDongDats() {
             const container = document.getElementById('mainContainer');
             container.classList.remove('shake-heavy');
-            void container.offsetWidth; // reset
+            void container.offsetWidth; 
             container.classList.add('shake-heavy');
         }
 
         async function thucHienBan(target, elementTarget) {
             if(isSpinning) return;
             
-            // SÚNG TỰ HẠ
+            // TỰ ĐỘNG HẠ SÚNG
             isAiming = false;
             document.getElementById('btnShoot').innerText = "🔫 CẦM SÚNG LÊN";
             document.getElementById('btnShoot').style.backgroundColor = "var(--danger)";
@@ -800,13 +909,16 @@
             let keepTurn = false;
 
             if (bullet === 'red') {
+                sfx.shootReal(); 
+                
                 target.hp -= dmgMultiplier; capNhatMau(); 
                 
-                // MÀN HÌNH NHÁY MÁU VÀ RUNG LẮC TOÀN TRANG CỰC MẠNH
                 const blood = document.getElementById('blood-flash');
                 blood.classList.remove('blood-anim'); void blood.offsetWidth;
                 blood.classList.add('blood-anim'); 
-                hieuUngDongDats(); // Gây động đất
+                hieuUngDongDats(); 
+
+                setTimeout(() => sfx.damage(), 200);
 
                 if(target.hp <= 0) {
                     target.isDead = true;
@@ -818,6 +930,7 @@
                     ghiLichSu(`💥 ${currentPlayer.name} bắn ${target.name} trúng đạn thật. (-${dmgMultiplier} HP)`, "death");
                 }
             } else {
+                sfx.shootBlank(); 
                 log.innerHTML = `💨 <b>Cạch...</b> Đạn giả. Tử thần tạm tha cho <b>${target.name}</b>.`;
                 if (target === currentPlayer) {
                     keepTurn = true;
