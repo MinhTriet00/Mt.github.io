@@ -228,6 +228,7 @@
     </style>
 </head>
 <body>
+    <button onclick="toggleHistory()" style="position:fixed; bottom:10px; left:10px; z-index:9999; font-size:10px; padding:5px;">Ẩn/Hiện Ghi Chép</button>
 
     <div class="noise-overlay"></div>
     <div id="blood-flash"></div>
@@ -365,6 +366,15 @@
         // --- HỆ THỐNG ÂM THANH (WEB AUDIO API TÍCH HỢP) ---
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         let actx;
+
+        function toggleHistory() {
+    const history = document.getElementById('match-history');
+    if (history.style.display === 'none') {
+        history.style.display = 'block';
+    } else {
+        history.style.display = 'none';
+    }
+}
 
         function initAudio() {
             if (!actx) actx = new AudioContext();
